@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="23.436" height="21.972" viewBox="0 0 23.436 21.972">
+  <g id="excel" transform="translate(0 -15.989)">
+    <g id="Group_84" data-name="Group 84" transform="translate(0 15.989)">
+      <g id="Group_83" data-name="Group 83" transform="translate(0 0)">
+        <path id="Path_123" data-name="Path 123" d="M22.7,18.92H13.183v-2.2a.73.73,0,0,0-.265-.564.72.72,0,0,0-.6-.155L.6,18.2a.73.73,0,0,0-.6.719V35.032a.731.731,0,0,0,.6.719l11.718,2.2a.689.689,0,0,0,.135.013.732.732,0,0,0,.732-.732v-2.2H22.7a.733.733,0,0,0,.732-.732V19.652A.733.733,0,0,0,22.7,18.92Zm-12.632,10.5a.732.732,0,1,1-1.1.964L6.84,27.955l-1.868,2.4a.733.733,0,0,1-1.157-.9l2.042-2.625-2.014-2.3a.732.732,0,0,1,1.1-.964l1.828,2.089,2.169-2.789a.733.733,0,0,1,1.156.9L7.756,26.777Zm11.9,4.144H13.183V32.1h2.2a.732.732,0,1,0,0-1.465h-2.2V29.173h2.2a.732.732,0,1,0,0-1.465h-2.2V26.244h2.2a.732.732,0,1,0,0-1.465h-2.2V23.314h2.2a.732.732,0,1,0,0-1.465h-2.2V20.385h8.789Z" transform="translate(0 -15.989)" fill="#67ab44"/>
+      </g>
+    </g>
+    <g id="Group_86" data-name="Group 86" transform="translate(17.577 21.849)">
+      <g id="Group_85" data-name="Group 85" transform="translate(0 0)">
+        <path id="Path_124" data-name="Path 124" d="M386.2,144.011h-1.465a.732.732,0,1,0,0,1.465H386.2a.732.732,0,1,0,0-1.465Z" transform="translate(-384 -144.011)" fill="#67ab44"/>
+      </g>
+    </g>
+    <g id="Group_88" data-name="Group 88" transform="translate(17.577 24.779)">
+      <g id="Group_87" data-name="Group 87" transform="translate(0 0)">
+        <path id="Path_125" data-name="Path 125" d="M386.2,208.011h-1.465a.732.732,0,1,0,0,1.465H386.2a.732.732,0,1,0,0-1.465Z" transform="translate(-384 -208.011)" fill="#67ab44"/>
+      </g>
+    </g>
+    <g id="Group_90" data-name="Group 90" transform="translate(17.577 27.709)">
+      <g id="Group_89" data-name="Group 89">
+        <path id="Path_126" data-name="Path 126" d="M386.2,272.011h-1.465a.732.732,0,1,0,0,1.465H386.2a.732.732,0,1,0,0-1.465Z" transform="translate(-384 -272.011)" fill="#67ab44"/>
+      </g>
+    </g>
+    <g id="Group_92" data-name="Group 92" transform="translate(17.577 30.638)">
+      <g id="Group_91" data-name="Group 91">
+        <path id="Path_127" data-name="Path 127" d="M386.2,336.011h-1.465a.732.732,0,1,0,0,1.465H386.2a.732.732,0,1,0,0-1.465Z" transform="translate(-384 -336.011)" fill="#67ab44"/>
+      </g>
+    </g>
+  </g>
+</svg>
