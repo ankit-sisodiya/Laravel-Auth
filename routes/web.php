@@ -24,6 +24,8 @@ Route::post('Otp-Send',[UsersController::class ,'OtpSend'])->name('Otp-Send');
 Route::post('Otp-Verify',[UsersController::class ,'OtpVerify'])->name('Otp-Verify');
 Route::post('/Update-Password', [UsersController::class, 'updatePassword'])->name('Update-Password');
 Route::get('/error-500',[UsersController::class ,'error500'])->name('error-500');
+Route::post('login',[UsersController::class ,'login'])->name('login');
+Route::post('two-fetor-authentication',[UsersController::class ,'twoFetorAuthentication'])->name('two-fetor-authentication');
 Route::get('Signout',[UsersController::class ,'signout'])->name('Signout');
 
 

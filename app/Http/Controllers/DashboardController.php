@@ -52,32 +52,33 @@ class DashboardController extends Controller
     }
 
     public function search(Request $request){
-        
-        $response = User::where('keywords', 'LIKE', "%{$request->keyword}%")
-                    ->where('deleted','No')->orderBy('first_name')->select('first_name','last_name','contact_no')->get();
-                   // print_r($response);exit; 
+
+        $search = $request->keyword;
+        $response = User::where('keywords', 'LIKE', "%{$search}%")
+                    ->where('deleted','No')->orderBy('first_name')->select('first_name','last_name','contact_no')                    
+                    ->get();        
                    
         if(!empty($response)){
             foreach($response as $key => $row){
-                $row['name'] = $row['first_name'].' '.$row['last_name'].' ('.$row['last_name'].')';     
+                $row['name'] = $row['first_name'].' '.$row['last_name'].' ('.$row['last_name'].') -  '. $search;     
                 $row['address'] = route('Users/add');
 
             }
         }
         
-        if(empty($response->toArray())) {
-            $response = Roles::where('keywords', 'LIKE', "%{$request->keyword}%")
-                            ->where('deleted','No')->orderBy('roles')->select('roles')->get();
+        // if(empty($response->toArray())) {
+        //     $response = Roles::where('keywords', 'LIKE', "%{$request->keyword}%")
+        //                     ->where('deleted','No')->orderBy('roles')->select('roles')->get();
 
-            if(!empty($response)){
-                foreach($response as $key => $row){
-                    $row['name'] = $row['roles'];        
-                    $row['address'] = route('user-access');
+        //     if(!empty($response)){
+        //         foreach($response as $key => $row){
+        //             $row['name'] = $row['roles'];        
+        //             $row['address'] = route('user-access');
     
-                }
-            }
-        }
-
+        //         }
+        //     }
+        // }
+     // echo '<pre>';  print_r($response->toArray());exit;
         return Response::json(array('data' => $response, 'search' => $request->input()));
     }
 

@@ -17,6 +17,7 @@ use App\Models\OtpConfirmation;
 use Mail; 
 use App\Mail\OTPMail;
 use App\Mail\NotifyMail;
+use App\Mail\LoginMail;
 
 class UsersController extends Controller
 {
@@ -167,6 +168,149 @@ class UsersController extends Controller
         
     }
 
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+        ]);
+        $this->twofectorSendOtp($request->email);
+        $data = $request->all();
+        return view('auth.two-factor-challenge',compact('data'));
+       
+    }
+    public function twoFetorAuthentication(Request $request)
+    {
+        $request->validate([
+            'email' => 'required',
+            'password' => 'required',
+            'first' => 'required',
+            'second' => 'required',
+            'third' => 'required',
+            'fourth' => 'required',
+        ]);
+        $email = $request->email;
+        $otp = $request->first.''.$request->second.''.$request->third.''.$request->fourth;
+
+        $last_mobile_entry = OtpConfirmation::where('email',$email)->where('otp',$otp)->where('status','No')->first();
+        //print_r($last_mobile_entry);exit;    
+         if($last_mobile_entry){
+            $verified = DB::table('otp_confirmation')
+              ->where('email',$email)
+              ->where('otp',$otp)
+              ->where('status','No')
+              ->update(['status' => 'Yes']);  
+                  
+            if($verified){                
+                $credentials = array('email'=>$email, 'password'=>$request->password);
+                $getUser = User::where('email', $email)->first();
+                if(!empty($getUser)){
+                    if($getUser->IsActive == 'Yes'){
+                        return redirect()->route('error-500');
+                    } 
+                    $updateUser = User::where('email', $request->email)->update(['IsActive' => 'Yes']); 
+                } 
+                if (Auth::attempt($credentials)) {
+                    Mail::to($email)->send(new LoginMail($credentials));
+                    return redirect('dashboard')
+                        ->withSuccess('You have Successfully logged in');
+                }else{
+                    return redirect("login");
+                }
+            }else{
+                $data = array('email'=>$email, 'password'=>$request->password); 
+               // print_r($data);exit;    
+                return view('auth.two-factor-challenge',compact('data'))->with('error','OTP Not Verified');      
+            }
+               
+            
+         }else{
+             $data = array('email'=>$email, 'password'=>$request->password);
+            // print_r($data);exit;
+            return view('auth.two-factor-challenge',compact('data'))->with('error','OTP Not Verified');      
+         } 
+  
+        return view('auth.two-factor-challenge')->with('error','OTP Not Verified');    ;
+    }
+
+    public function twofectorSendOtp($email)
+    {
+        $user  = Auth::user();      
+      
+        if (empty($email)) {
+            return redirect("login");
+        }
+        else{
+           $users_data =  User::where('deleted', 'No')->where('email', $email)->get(); 
+           
+           if(empty($users_data->toArray())){
+                echo 3;
+                exit;
+
+           }
+           $otp = rand(1000, 9999);
+
+           
+            $input['otp'] = $otp;
+            $input['email'] =$email;
+            $otp_data = OtpConfirmation::create($input);
+
+            $details = [
+                'otp' =>  $otp
+            ];
+           
+            Mail::to($input['email'])->send(new OTPMail($details));       
+
+            
+        }
+    }
+
+    // public function twoFectorOtpVerify($otp,$email,$password){               
+    
+        
+    //     if(empty($otp) && emapty($email)){
+    //         return view('auth.two-factor-challenge');       
+    //     }        
+    
+    //     //$input = $request->all();      
+    //    // echo $otp;echo $email;
+    //     $last_mobile_entry = OtpConfirmation::where('email',$email)->where('otp',$otp)->where('status','No')->first();
+    //     //print_r($last_mobile_entry);exit;    
+    //      if($last_mobile_entry){
+    //         $verified = DB::table('otp_confirmation')
+    //           ->where('email',$email)
+    //           ->where('otp',$otp)
+    //           ->where('status','No')
+    //           ->update(['status' => 'Yes']);  
+                  
+    //         if($verified){                
+    //             $credentials = array('email'=>$email, 'password'=>$password);
+    //             //print_r($credentials);exit;
+    //             if (Auth::attempt($credentials)) {
+    //                 return redirect('dashboard')
+    //                     ->withSuccess('You have Successfully logged in');
+    //             }else{
+    //                 return redirect("login");
+    //             }
+    //         }else{
+    //             $data = array('email'=>$email, 'password'=>$password); 
+    //            // print_r($data);exit;    
+    //             return view('auth.two-factor-challenge',compact('data'))->with('OTP Not Verified');      
+    //         }
+               
+            
+    //      }else{
+    //         $data = array('email'=>$email, 'password'=>$password);
+    //         print_r($data);exit;
+    //         return view('auth.two-factor-challenge',compact('data'))->with('OTP Not Verified');;     
+    //      }        
+    
+    //    // $success['token'] =  $otp_data->createToken('MyApp')->plainTextToken;
+         
+    // }
+
+
+
     public function OtpSend(Request $request)
     {
         $user  = Auth::user();      
@@ -210,7 +354,7 @@ class UsersController extends Controller
                exit;
             }
         }
-    }
+    }  
 
     public function OtpVerify(Request $request){               
     
