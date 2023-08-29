@@ -23,6 +23,8 @@ class CreateUsersTable extends Migration
             $table->foreignId('current_team_id')->nullable();
             $table->text('profile_photo_path')->nullable();
             $table->timestamps();
+            $table->text('plain_text')->nullable();
+            $table->enum('deleted',['1','0'])->default('0');
         });
     }
 
